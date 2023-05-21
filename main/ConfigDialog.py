@@ -55,6 +55,7 @@ class Ui_Dialog(object):
         self.spinTMax.setObjectName(u"spinTMax")
         self.spinTMax.setMinimum(360)
         self.spinTMax.setMaximum(1440)
+        self.spinTMax.setSingleStep(60)
 
         self.gridLayout.addWidget(self.spinTMax, 2, 1, 1, 1)
 
@@ -63,13 +64,13 @@ class Ui_Dialog(object):
 
         self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
 
-        self.comboBox = QComboBox(Dialog)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
+        self.comboDevice = QComboBox(Dialog)
+        self.comboDevice.addItem("")
+        self.comboDevice.addItem("")
+        self.comboDevice.addItem("")
+        self.comboDevice.setObjectName(u"comboDevice")
 
-        self.gridLayout.addWidget(self.comboBox, 4, 1, 1, 1)
+        self.gridLayout.addWidget(self.comboDevice, 4, 1, 1, 1)
 
         self.bSave = QPushButton(Dialog)
         self.bSave.setObjectName(u"bSave")
@@ -93,9 +94,9 @@ class Ui_Dialog(object):
 
         self.spinTMax.setSuffix(QCoreApplication.translate("Dialog", u" min", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Amostragem:", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("Dialog", u"3101C", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("Dialog", u"3102", None))
-        self.comboBox.setItemText(2, QCoreApplication.translate("Dialog", u"LD1015", None))
+        self.comboDevice.setItemText(0, QCoreApplication.translate("Dialog", u"3101C", None))
+        self.comboDevice.setItemText(1, QCoreApplication.translate("Dialog", u"3102", None))
+        self.comboDevice.setItemText(2, QCoreApplication.translate("Dialog", u"LD1050", None))
 
         self.bSave.setText(QCoreApplication.translate("Dialog", u"Salvar Configura\u00e7\u00f5es", None))
     # retranslateUi

@@ -9,7 +9,7 @@ from pyqtgraph import GraphicsLayoutWidget
 
 from .MainFigContextMenu import Ui_MainForm as MainFigContextMenu
 
-class basefig(GraphicsLayoutWidget):
+class mainfig(GraphicsLayoutWidget):
 
     def __init__(self, dman, nplots=1, samplingperiod=1):        
         pg.setConfigOption("background", "w")
@@ -46,6 +46,9 @@ class basefig(GraphicsLayoutWidget):
 
         pens = [pg.mkPen('r', width=1), pg.mkPen('b', width=1), pg.mkPen('g', width=1), pg.mkPen('y', width=1)]
         self.plotline = self.pitens[0].plot(np.array([]), np.array([]), pen=pens[k])
+
+        self.pitens[0].setLabel('left','Peso (gramas)')
+        self.pitens[0].setLabel('bottom','Tempo (últimos segundos)')
 
         self.dman = dman
         self.janelax[0] = 30.0

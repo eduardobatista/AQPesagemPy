@@ -23,7 +23,9 @@ class driverhardware:
         self.serial.close()
     
     def listPorts(self):
-        ports = serial.tools.list_ports.comports()
+        aux = serial.tools.list_ports.comports()
+        print(aux)
+        ports = [aa.device for aa in aux]
         return list(ports)
 
     def setDevice(self, devicename):

@@ -6,14 +6,14 @@ from PySide2 import QtWidgets
 from .mainwindow import mainwindow
 from .driverhardware import driverhardware
 from .dataman import dataman
-from .basefig import basefig
+from .mainfig import mainfig
 
 app = QtWidgets.QApplication([])
 app.setStyle('Fusion')
 
 drv = driverhardware()
 dman = dataman(drv)
-mfig = basefig(dman)
+mfig = mainfig(dman)
 
 mwindow = mainwindow(app,dman,drv,mfig)
 
