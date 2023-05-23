@@ -132,6 +132,7 @@ class mainfig(GraphicsLayoutWidget):
 
         if npontos > 0:
             self.plotline.setData(self.vetoreixox[0][-npontos:], self.dman.pesodata[limi:limf])
+            # self.plotline.setData(self.dman.timedata[limi:limf], self.dman.pesodata[limi:limf])
         else:
             self.plotline.setData([],[])
 

@@ -53,12 +53,23 @@ class dataman(QObject):
 
         if not self.startime:
             self.startime = time.time()
-            nextsample = self.startime + self.Ts
+            self.nextsample = self.startime + self.Ts
         else:
-            nextsample = time.time() + self.Ts
+            nnullsamples = int(np.ceil((time.time() - self.nextsample)/self.Ts))
+            for k in range(nnullsamples):
+                self.timedata[self.globalct] = self.lastreadtime + (k+1)*self.Ts
+                self.pesoatual = float('nan')
+                self.pesodata[self.globalct] = self.pesoatual
+                self.globalct += 1
+            self.nextsample = self.nextsample + nnullsamples*self.Ts
 
         while (not self.flagstop):
 
+            slptime = self.nextsample - time.time()            
+            if slptime > 0:
+                time.sleep(slptime) 
+            self.nextsample = self.nextsample + self.Ts
+            
             self.lastreadtime = round(time.time() - self.startime,2)
             self.timedata[self.globalct] = self.lastreadtime
             try:
@@ -74,10 +85,6 @@ class dataman(QObject):
             self.globalct += 1
             self.updateUi.emit()
 
-            slptime = nextsample - time.time()            
-            if slptime > 0:
-                time.sleep(slptime) 
-            nextsample = nextsample + self.Ts
 
         self.driver.closePort()
         self.reading = False

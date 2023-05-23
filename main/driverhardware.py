@@ -12,7 +12,7 @@ class driverhardware:
                                     bytesize=serial.EIGHTBITS,
                                     timeout=1,
                                     rtscts=False)
-        self.setDevice("dummy")
+        self.setDevice("3101C")
         
     def setPort(self, portname):
         self.serial.port = portname

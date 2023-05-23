@@ -31,8 +31,13 @@ class mainwindow(QtWidgets.QMainWindow):
         self.ui.bInit.clicked.connect(self.startreadings)
         self.ui.bReset.clicked.connect(self.reset)
         self.ui.bConfig.clicked.connect(self.config)
+        self.ui.bSave.clicked.connect(self.salvardados)
         self.dman.updateUi.connect(self.updateUi)
         self.dman.updateStatus.connect(self.statusMessage)
+
+    def salvardados(self):
+        print(self.dman.timedata[:self.dman.globalct])
+        print(self.dman.pesodata[:self.dman.globalct])
 
     def writeconfigs(self):
         settings = QtCore.QSettings("AQPesagem", "AQPesagem")
