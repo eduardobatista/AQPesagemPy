@@ -121,18 +121,14 @@ class mainfig(GraphicsLayoutWidget):
         limi = 0
         limf = 0
         npontos = 0
-
-        print(self.npontosjanela[0])
        
-        limi = self.dman.globalctreadings - self.npontosjanela[0]
-        limf = self.dman.globalctreadings
+        limi = self.dman.globalct - self.npontosjanela[0]
+        limf = self.dman.globalct
         if limi < 0:
             limi = 0
             npontos = limf - limi
         else:
             npontos = self.npontosjanela[0]
-        
-        print(npontos)
 
         if npontos > 0:
             self.plotline.setData(self.vetoreixox[0][-npontos:], self.dman.pesodata[limi:limf])

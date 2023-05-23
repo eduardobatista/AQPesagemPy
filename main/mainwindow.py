@@ -1,7 +1,6 @@
-
+import math
 
 from PySide2 import QtWidgets,QtCore
-import PySide2.QtGui
 
 from .aqpesagem import Ui_MainWindow
 from .mainfig import mainfig
@@ -33,6 +32,7 @@ class mainwindow(QtWidgets.QMainWindow):
         self.ui.bReset.clicked.connect(self.reset)
         self.ui.bConfig.clicked.connect(self.config)
         self.dman.updateUi.connect(self.updateUi)
+        self.dman.updateStatus.connect(self.statusMessage)
 
     def writeconfigs(self):
         settings = QtCore.QSettings("AQPesagem", "AQPesagem")
@@ -65,10 +65,14 @@ class mainwindow(QtWidgets.QMainWindow):
     def reset(self):
         self.dman.resetData()        
         self.mainfig.resetFigure()
+        self.statusMessage(None)
 
     def updateUi(self):
-        self.ui.labelpeso.setText(f"{self.dman.pesoatual} g")
-        self.ui.labeltempo.setText(f"{self.dman.globalctreadings * self.dman.samplingrate} s")
+        if math.isnan(self.dman.pesoatual):
+            self.ui.labelpeso.setText("--")
+        else:
+            self.ui.labelpeso.setText(f"{self.dman.pesoatual} g")
+        self.ui.labeltempo.setText(f"{self.dman.lastreadtime:.0f} s")
         self.mainfig.updateFig()
 
     def startreadings(self):
@@ -80,13 +84,20 @@ class mainwindow(QtWidgets.QMainWindow):
             self.ui.bSave.setEnabled(True)
             self.ui.bInit.setText("Iniciar")
         else:            
-            self.ui.bInit.setText("Parar")
-            for bt in [self.ui.bReset,self.ui.bSave,self.ui.bConfig]:
-                bt.setEnabled(False)
-            self.dman.startreadings()
-            self.statusMessage(None)
+            try:
+                self.dman.startreadings()
+                self.ui.bInit.setText("Parar")
+                for bt in [self.ui.bReset,self.ui.bSave,self.ui.bConfig]:
+                    bt.setEnabled(False)
+                self.statusMessage(None)
+            except BaseException as ex:
+                self.statusMessage(str(ex))
 
     def closeEvent(self, event) -> None:
-        self.writeconfigs()
-        event.accept()          
+        if self.dman.reading == True:
+            self.statusMessage("Pare o experimento antes de fechar o programa.")
+            event.ignore()
+        else:
+            self.writeconfigs()
+            event.accept()          
         

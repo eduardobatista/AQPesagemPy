@@ -17,8 +17,6 @@ mfig = mainfig(dman)
 
 mwindow = mainwindow(app,dman,drv,mfig)
 
-print("Uepa!")
-
 mwindow.show()
 
 sys.exit(app.exec_())

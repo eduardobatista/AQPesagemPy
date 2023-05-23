@@ -1,6 +1,4 @@
 
-import typing
-import PySide2.QtCore
 from .ConfigDialog import Ui_Dialog as configdialog
 
 from PySide2 import QtCore
