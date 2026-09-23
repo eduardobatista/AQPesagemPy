@@ -39,8 +39,8 @@ class driverhardware:
             if devicename == "dummy":
                 self.lepeso = self.lepesodummy
             elif devicename == "3101C":
-                self.requestcmd = bytearray([0,1,ord('P'),0x0D,0x0A])
-                self.cpattern = re.compile(r"\:(.*)\:")
+                self.requestcmd = bytearray(b"01P\r\n")
+                self.cpattern = re.compile(r"^(?:PB|PL):\s*([+-]?\d+(?:[,.]\d+)?)\s+T:")
                 self.lepeso = self.lepeso3101C
             if devicename == "3102":
                 self.lepeso = self.lepeso3102
@@ -49,14 +49,14 @@ class driverhardware:
     
     def lepesodummy(self):
         return 10.0
-    
+
     def lepeso3102(self):
         return 9.0
-    
+
     def lepeso3101C(self):
         self.serial.write(self.requestcmd)
         resp = self.serial.readline().decode()
-        # resp = "PB:-02,000 T: 00,000 "
+        # resp = "PL:-000,10 T: 112,00 ."
         # resp = "SATURA"
         if len(resp) == 0:
             raise BaseException("Sem resposta do sistema.")
@@ -65,11 +65,11 @@ class driverhardware:
         elif resp.startswith("S<BRE"):
             raise BaseException("Sobrecarga.")
         else:
-            aux = self.cpattern.search(resp)[1][:-1].replace(",",".")
+            match = self.cpattern.search(resp)
+            if match is None:
+                raise BaseException("Formato de resposta inválido.")
+            aux = match[1].replace(",",".")
             return float(aux)
-    
+
     def lepesoLD1050(self):
         return 7.0
-
-
-        
